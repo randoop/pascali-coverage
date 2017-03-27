@@ -49,7 +49,7 @@ rerun the fetch script.)
 ## Running
 
 Before you attempt to run the scripts, make sure you have run the
-`integration-test2/fetch.py` script and made certain that
+`integration-test2/fetch.py` script, and that
 `integration-test2/libs/randoop.jar` points to the version of Randoop that you
 wish to use.
 Then first run the `run_dyntrace.sh` script, which will use Randoop to generate
@@ -75,12 +75,12 @@ The `run_dyntrace` script writes logs into `pascali-coverage/log` and the `cover
 ## Updating the spreadsheet
 
 To update the
-[MUSE Pascali UW Ranoop metrics spreadsheet](https://docs.google.com/spreadsheets/d/1SOh1EtNzQsSsTyFwOmIDMHK_HziKncqirLuQDoH7yEs/edit#gid=1134337280)
-I usually rename the `report.csv` file to include the date, say to `report-030617.csv` and then on Google Sheets do the following steps:
+[MUSE Pascali UW Randoop metrics spreadsheet](https://docs.google.com/spreadsheets/d/1SOh1EtNzQsSsTyFwOmIDMHK_HziKncqirLuQDoH7yEs/edit#gid=1134337280)
+I usually rename the `report.csv` file to include the date, say to `report-030617.csv`, and then on Google Sheets do the following steps:
 1. Open the file picker (the "folder" icon on the right) and upload the report file.
-2. Open the sheet for the report, select the cells with content, choose `Data->Sort range...`, click the `Data has header row` box so that the `sort by` dropbox says `project`. click `Add another sort column` and a new dropbox with `case` should appear. Now click `Sort`.
+2. Open the sheet for the report, select the cells with content, choose `Data->Sort range...`, click the `Data has header row` box so that the `sort by` dropbox says `project`. Click `Add another sort column` and a new dropbox with `case` should appear. Now click `Sort`.
 3. In the sorted table, select and copy the last four columns ("covered lines" through "total methods").
-4. Navigate to the [MUSE Pascali UW Ranoop metrics spreadsheet](https://docs.google.com/spreadsheets/d/1SOh1EtNzQsSsTyFwOmIDMHK_HziKncqirLuQDoH7yEs/edit#gid=1134337280)
+4. Navigate to the [MUSE Pascali UW Randoop metrics spreadsheet](https://docs.google.com/spreadsheets/d/1SOh1EtNzQsSsTyFwOmIDMHK_HziKncqirLuQDoH7yEs/edit#gid=1134337280)
 5. Scroll horizontally to the rightmost column. Select the last column and choose `Insert->Column right`.
 Click in the top cell in the new column and paste the new contents.
 6. Scroll to the bottom, copy the 3 by 4 block of cells with the formulas for the Sum, Coverage, and Package Count from the previous set of results. The paste these into the corresponding cells in the new columns.
