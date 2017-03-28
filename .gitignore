@@ -1,5 +1,6 @@
+*~
 .DS_Store
 .gradle/
-extractcoverage/build
-*~
 TAGS
+extractcoverage/build
+integration-test2
