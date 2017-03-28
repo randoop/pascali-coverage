@@ -3,6 +3,7 @@
 .gradle/
 TAGS
 extractcoverage/build
+evaluation/
 integration-test2
 libs/
 log/

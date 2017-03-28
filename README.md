@@ -62,15 +62,23 @@ wish to use.
 ```
 sh ./run_dyntrace.sh
 sh ./coverage.sh
+cd evaluation/coverage
+head -n 1 report.csv > report-`date +%Y%m%d`.csv
+tail -n +2 report.csv | sort -t , -k1,1 -k2,2n >> report-`date +%Y%m%d`.csv
+cd ..
 ```
 
 The `run_dyntrace.sh` script uses Randoop to generate
 tests in directories such as
 `integration-test2/corpus/<program-name>/dljc-out/test-{src,classes}[0-9]+`. 
 The `run_dyntrace` script writes logs into `pascali-coverage/log`.
-It runs for a long time (hours?), and creates lots of windows that may prevent you from doing other work.
+It runs for about 5 hours.
+At times it creates lots of windows that may prevent you from doing other work; be patient and they will close by themselves.
 
-The `coverage.sh` script runs the generated tests and
+The `coverage.sh` script runs the generated tests.
+It completes in about 5 minutes.
+Again, it will pop up windows; you should wait for them to close by themselves.
+The `coverage.sh` script
 uses the `extractcoverage` program to pull all of the coverage information into
 `evaluation/coverage`.
 The files written into `evaluation/coverage` include the aggregate `report.csv` (which is what goes into the Google docs spreadsheet), and subdirectories such as
@@ -92,16 +100,15 @@ The `coverage` script writes a single log as `pascali-coverage/evaluation/logs/c
 
 To update the
 [MUSE Pascali UW Randoop metrics spreadsheet](https://docs.google.com/spreadsheets/d/1SOh1EtNzQsSsTyFwOmIDMHK_HziKncqirLuQDoH7yEs/edit#gid=1134337280)
-I usually rename the `report.csv` file to include the date, say to `report-030617.csv`, and then on Google Sheets do the following steps:
-1. Open the file picker (the "folder" icon on the right) and upload the report file.
-2. Open the sheet for the report, select the cells with content, choose `Data->Sort range...`, click the `Data has header row` box so that the `sort by` dropbox says `project`. Click `Add another sort column` and a new dropbox with `case` should appear. Now click `Sort`.
-3. In the sorted table, select and copy the last four columns ("covered lines" through "total methods").
-4. Navigate to the [MUSE Pascali UW Randoop metrics spreadsheet](https://docs.google.com/spreadsheets/d/1SOh1EtNzQsSsTyFwOmIDMHK_HziKncqirLuQDoH7yEs/edit#gid=1134337280)
-5. Scroll horizontally to the rightmost column. Select the last column and choose `Insert->Column right`.
-Click in the top cell in the new column and paste the new contents.
-6. Scroll to the bottom, copy the 3 by 4 block of cells with the formulas for the Sum, Coverage, and Package Count from the previous set of results. The paste these into the corresponding cells in the new columns.
-7. In the top row of the new columns, enter the date, the Randoop version (which may be a working version), and information about the timelimit and outputlimit used in dyntrace (currently `timelimit=60` and `outputlimit=4000`)
-8. Add or fix any  boundary lines affected by the insertion.
+on Google Sheets do the following steps:
+1. Do "File >> Import >> Upload >> Select a file from your computer >> `evaluation/coverage/report-20173028.csv` (adjust file name) >> Create new spreadsheet >> open now"
+2. Select and copy the last four columns ("covered lines" through "total methods").
+3. Navigate to the [MUSE Pascali UW Randoop metrics spreadsheet](https://docs.google.com/spreadsheets/d/1SOh1EtNzQsSsTyFwOmIDMHK_HziKncqirLuQDoH7yEs/edit#gid=1134337280)
+4. Add 4 new blank columns at the right.  Scroll horizontally to the rightmost column. Right-click the last column and choose `Insert 1 right`, or select the last column and in the main menu do `Insert->Column right`. Repeat a total of 4 times.
+Click in the second cell in the first new column and paste the new contents.
+5. In the top row of the new columns, enter the date, the Randoop version (which may be a working version (**TODO: how to determine which information to enter here?**)), and information about the timelimit and outputlimit used in dyntrace, which you can find in the declaration of procedure `generate_tests` in file pascali-coverage/integration-test2/tools/do-like-javac/do_like_javac/tools/dyntrace.py`
+6. Scroll to the bottom, copy the 3 by 4 block of cells with the formulas for the Sum, Coverage, and Package Count from the previous set of results. Then paste these into the corresponding cells in the new columns.
+7. Add or fix any boundary lines affected by the insertion. (**TODO: how to do this?**)
 
 
 
