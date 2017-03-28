@@ -26,17 +26,15 @@ To create this directory structure:
 ```
 git clone git@gitlab.cs.washington.edu:randoop/pascali-coverage.git
 cd pascali-coverage
-git clone git@github.com:aas-integration/integration-test2.git
 mkdir -p evaluation/coverage
 mkdir -p evaluation/logs
-mkdir libs
 mkdir log
-cd integration-test2
-python fetch.py
-wget http://search.maven.org/remotecontent?filepath=org/jacoco/jacoco/0.7.9/jacoco-0.7.9.zip
-unzip -j jacoco-0.7.9.zip -d pascali-coverage/libs
-cd extractcoverage
-./gradlew assemble`
+mkdir libs
+wget http://search.maven.org/remotecontent?filepath=org/jacoco/jacoco/0.7.9/jacoco-0.7.9.zip -O jacoco-0.7.9.zip
+unzip -j jacoco-0.7.9.zip lib/jacocoant -d libs
+git clone git@github.com:aas-integration/integration-test2.git
+(cd integration-test2 && python fetch.py)
+(cd extractcoverage && ./gradlew assemble)
 ```
 
 Finally, you may want to update `extractcoverage/libs/plume.jar`
