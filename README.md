@@ -22,7 +22,7 @@ pascali-coverage
 ```
 It is somewhat historical and could be cleaned up.
 
-To get to something similar:
+To create this directory structure:
 ```
 git clone git@gitlab.cs.washington.edu:randoop/pascali-coverage.git
 cd pascali-coverage
