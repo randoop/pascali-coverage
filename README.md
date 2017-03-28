@@ -40,13 +40,17 @@ git clone git@github.com:aas-integration/integration-test2.git
 
 Finally, you may want to update `extractcoverage/libs/plume.jar`
 
-The Pascali fetch script will download the version of Randoop that is currently used in
-Pascali.
-If you want to use a Randoop that is different than the one in `integration-test2`,
-replace `integration-test2/libs/randoop.jar` with a symbolic link to the version
-you want to use.
-(Note: this link should be checked after any time you pull integration-test2 and
-rerun the fetch script.)
+To use a different Randop than the one used by default in
+`integration-test2`, replace `integration-test2/libs/randoop.jar` with a
+symbolic link to the version you want to use, probably in
+`build/libs/randoop-all-X.X.X.jar` of your clone of Randoop.  Example:
+```
+mv -f integration-test2/libs/randoop.jar randoop.jar-ORIG
+ln -s $HOME/research/testing/randoop/build/libs/randoop-all-3.1.2.jar integration-test2/libs/randoop.jar
+```
+(Note: if you make a change, check this link anytime you pull
+integration-test2 and rerun the `fetch.py` script.)
+
 
 ## Running
 
