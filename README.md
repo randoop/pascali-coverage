@@ -58,12 +58,21 @@ Before you attempt to run the scripts, make sure you have run the
 `integration-test2/fetch.py` script, and that
 `integration-test2/libs/randoop.jar` points to the version of Randoop that you
 wish to use.
-Then first run the `run_dyntrace.sh` script, which will use Randoop to generate
-tests in the `integration-test2/corpus` directory.
-Afterward, run the `coverage.sh` script, which will run the generated tests and
-use the `extractcoverage` program to pull all of the coverage information into
-`evaluation/coverage`.
 
+```
+sh ./run_dyntrace.sh
+sh ./coverage.sh
+```
+
+The `run_dyntrace.sh` script uses Randoop to generate
+tests in directories such as
+`integration-test2/corpus/<program-name>/dljc-out/test-{src,classes}[0-9]+`. 
+The `run_dyntrace` script writes logs into `pascali-coverage/log`.
+It runs for a long time (hours?), and creates lots of windows that may prevent you from doing other work.
+
+The `coverage.sh` script runs the generated tests and
+uses the `extractcoverage` program to pull all of the coverage information into
+`evaluation/coverage`.
 The files written into `evaluation/coverage` include the aggregate `report.csv` (which is what goes into the Google docs spreadsheet), and subdirectories such as
 
 ```
@@ -76,7 +85,8 @@ evaluation/coverage/thumbnailinator/
 which has the JaCoCo exec file, and a csv file with the extracted coverage per method.
 If a failure occurs during the coverage script run, at least one of these files may be missing.
 
-The `run_dyntrace` script writes logs into `pascali-coverage/log` and the `coverage` script writes a single log as `pascali-coverage/evaluation/logs/coverage-log.txt`.
+The `coverage` script writes a single log as `pascali-coverage/evaluation/logs/coverage-log.txt`.
+
 
 ## Updating the spreadsheet
 
