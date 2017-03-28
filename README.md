@@ -7,7 +7,7 @@ the Pascali corpus.
 
 ## Setup
 
-This is the directory structure that I use
+This is the directory structure that I use:
 ```
 .
 ├── coverage.sh
