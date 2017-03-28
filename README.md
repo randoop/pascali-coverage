@@ -9,7 +9,7 @@ the Pascali corpus.
 
 This is the directory structure that I use
 ```
-.
+pascali-coverage
 ├── coverage.sh
 ├── evaluation
 │   ├── coverage
@@ -22,21 +22,24 @@ This is the directory structure that I use
 ```
 It is somewhat historical and could be cleaned up.
 
-To get to something similar
-1. clone this repository,
-2. cd into the `pascali-coverage` directory
-3. clone the `integration-test2` respository
-4. run
+To get to something similar:
 ```
+git clone git@gitlab.cs.washington.edu:randoop/pascali-coverage.git
+cd pascali-coverage
+git clone git@github.com:aas-integration/integration-test2.git
 mkdir -p evaluation/coverage
 mkdir -p evaluation/logs
 mkdir libs
 mkdir log
+cd integration-test2
+python fetch.py
+wget http://search.maven.org/remotecontent?filepath=org/jacoco/jacoco/0.7.9/jacoco-0.7.9.zip
+unzip -j jacoco-0.7.9.zip -d pascali-coverage/libs
+cd extractcoverage
+./gradlew assemble`
 ```
-5. cd into `integration-test2` and run `python fetch.py`
-6. retrieve `jacocoagent.jar` from the interweb and add it to `pascali-coverage/libs`
-7. cd into `extractcoverage` and run `./gradlew assemble`
-8. you may want to update `extractcoverage/libs/plume.jar`
+
+Finally, you may want to update `extractcoverage/libs/plume.jar`
 
 The Pascali fetch script will download the version of Randoop that is currently used in
 Pascali.
