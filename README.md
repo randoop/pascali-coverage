@@ -40,7 +40,7 @@ git clone git@github.com:aas-integration/integration-test2.git
 
 Finally, you may want to update `extractcoverage/libs/plume.jar`
 
-To use a different Randop than the one used by default in
+To use a different Randoop than the one used by default in
 `integration-test2`, replace `integration-test2/libs/randoop.jar` with a
 symbolic link to the version you want to use, probably in
 `build/libs/randoop-all-X.X.X.jar` of your clone of Randoop.  Example:
@@ -61,6 +61,7 @@ wish to use.
 
 ```
 sh ./run_dyntrace.sh
+ln -s integration-test2/corpus/catalano/Catalano.Image/dljc-out integration-test2/corpus/catalano/dljc-out
 sh ./coverage.sh
 cd evaluation/coverage
 head -n 1 report.csv > report-`date +%Y%m%d`.csv
@@ -70,7 +71,7 @@ cd ..
 
 The `run_dyntrace.sh` script uses Randoop to generate
 tests in directories such as
-`integration-test2/corpus/<program-name>/dljc-out/test-{src,classes}[0-9]+`. 
+`integration-test2/corpus/<program-name>/dljc-out/test-{src,classes}[0-9]+`.
 The `run_dyntrace` script writes logs into `pascali-coverage/log`.
 It runs for about 5 hours.
 At times it creates lots of windows that may prevent you from doing other work; be patient and they will close by themselves.
