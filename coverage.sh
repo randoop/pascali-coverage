@@ -1,9 +1,10 @@
 #!/bin/bash
-tools=libs
-evalpath=evaluation
-projectpath=integration-test2
+root=`pwd`
+tools=$root/libs
+evalpath=$root/evaluation
+projectpath=$root/integration-test2
 projectlibs=$projectpath/libs
-classpath=extractcoverage/build/libs/extractcoverage-all.jar
+classpath=$root/extractcoverage/build/libs/extractcoverage-all.jar
 corpuspath=$projectpath/corpus
 coveragepath=$evalpath/coverage
 logpath=$evalpath/logs

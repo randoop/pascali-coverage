@@ -11,8 +11,6 @@ dependencies {
     compile files('libs/plume.jar')
 
     testCompile 'junit:junit:4.12'
-
-
 }
 
 task singleJar (type: Jar) {
