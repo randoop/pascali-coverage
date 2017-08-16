@@ -46,8 +46,8 @@ public class CoverageAnalyzer {
   @Option("the working directory")
   public static String workingDirectoryPath;
 
-  @Option("the library classpath")
-  public static String libClasspath;
+  @Option("the junit library classpath")
+  public static String junitPath;
 
   @Option("the path for the replacecall agent")
   public static String replacecallAgentPath;
@@ -145,7 +145,7 @@ public class CoverageAnalyzer {
     }
     File execFile = testOutPath.resolve("jacoco.exec").toFile();
 
-    String testClasspath = inputClasspath + ":" + testPath.toString() + ":" + libClasspath;
+    String testClasspath = inputClasspath + ":" + testPath.toString() + ":" + junitPath;
     List<String> command = new ArrayList<>();
     command.add("java");
     command.add("-javaagent:" + jacocoAgentPath + "=destfile=" + execFile + ",excludes=org.junit.*");

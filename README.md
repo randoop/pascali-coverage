@@ -49,6 +49,12 @@ tar zxvf plume-lib-1.1.2.tar.gz -C libs plume-lib-1.1.2/java/plume.jar
 ln -f -s libs/plume-lib-1.1.2/java/plume.jar extractcoverage/libs/plume.jar
 ```
 
+## Controlling which Randoop is used
+
+By default the `integration-test2` scripts will run the Randoop that is downloaded
+by the `integration-test2/fetch_dependencies.sh` script.  This is supposed to be
+the current release of Randoop. (If it is not, a pull-request with the update needs to be made to the [integration-test2](https://github.com/aas-integration/integration-test2) repo.)
+
 To use a different Randoop than the one used by default in
 `integration-test2`, replace `integration-test2/libs/randoop.jar` with a
 symbolic link to the version you want to use, probably in
@@ -85,7 +91,11 @@ tests in directories such as
 `integration-test2/corpus/<program-name>/dljc-out/test-{src,classes}[0-9]+`.
 The `run_dyntrace` script writes logs into `pascali-coverage/log`.
 It runs for about 5 hours.
-At times it creates lots of windows that may prevent you from doing other work; be patient and they will close by themselves.
+It is recommended that you run the scripts on a server without connecting your windowing system.
+
+The library code in the corpus makes many attempts to open a window, but the replacecall agent should prevent the windows from being created.
+However, depending on your OS/windowing system, the process may steal window focus, which can be disruptive to doing actual work.
+If you get actual windows or dialogs, please report an issue to Randoop.
 
 The `coverage.sh` script runs the generated tests.
 It completes in about 5 minutes.

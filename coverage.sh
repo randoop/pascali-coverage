@@ -10,4 +10,5 @@ logpath=$evalpath/logs
 agentpath=$tools/jacocoagent.jar
 outputpath=$coveragepath/
 junitpath=$projectlibs/junit-4.12.jar
-java -jar $classpath $corpuspath $agentpath $outputpath $junitpath &> $logpath/coverage-log.txt
+replacecallpath=$projectlibs/replacecall.jar
+java -jar $classpath --corpusDirectoryPath $corpuspath --jacocoAgentPath $agentpath --workingDirectoryPath $outputpath --junitPath $junitpath --replacecallAgentPath $replacecallpath &> $logpath/coverage-log.txt
