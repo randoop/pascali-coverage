@@ -3,6 +3,7 @@ package randoop.jacoco;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +46,7 @@ class ProcessStatus {
    * @param command  the command to be run in the process
    * @return the exit status and combined standard stream output
    */
-  static ProcessStatus runCommand(List<String> command) {
+  static ProcessStatus runCommand(List<String> command, Path workingDirectory) {
 
     // The Plume class used here expects a time limit, but setting tight timeout limits
     // for individual tests has caused headaches when tests are run on Travis CI.
@@ -53,6 +54,7 @@ class ProcessStatus {
     long timeout = 300000; // use 5 minutes for timeout
 
     ProcessBuilder randoopBuilder = new ProcessBuilder(command);
+    randoopBuilder.directory(workingDirectory.toFile());
     randoopBuilder.redirectErrorStream(true);
 
     TimeLimitProcess p = null;
