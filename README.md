@@ -3,7 +3,9 @@
 This is the initial state of the tools for evaluating Randoop test coverage over
 the Pascali corpus.
 
-(these instructions were hastily written and may not be perfect)
+Notes:
+1. The default Pascali scripts run Randoop without the replacecall agent. This will remain broken until Randoop 4 is released and the Pascali scripts can be updated.
+2. If you find anything wrong with these instructions, please modify this document in the repository and submit a pull-request.
 
 ## Setup
 
@@ -38,7 +40,14 @@ git clone git@github.com:aas-integration/integration-test2.git
 (cd extractcoverage && ./gradlew assemble)
 ```
 
-Finally, you may want to update `extractcoverage/libs/plume.jar`
+Finally, you may want to update `extractcoverage/libs/plume.jar` with the
+[current release](https://github.com/mernst/plume-lib/releases/latest).
+```
+wget https://github.com/mernst/plume-lib/releases/download/v1.1.2/plume-lib-1.1.2.tar.gz
+tar zxvf plume-lib-1.1.2.tar.gz -C libs plume-lib-1.1.2/java/plume.jar
+\rm -f plume-lib-1.1.2.tar.gz
+ln -f -s libs/plume-lib-1.1.2/java/plume.jar extractcoverage/libs/plume.jar
+```
 
 To use a different Randoop than the one used by default in
 `integration-test2`, replace `integration-test2/libs/randoop.jar` with a
@@ -46,7 +55,9 @@ symbolic link to the version you want to use, probably in
 `build/libs/randoop-all-X.X.X.jar` of your clone of Randoop.  Example:
 ```
 mv -f integration-test2/libs/randoop.jar randoop.jar-ORIG
-ln -s $HOME/research/testing/randoop/build/libs/randoop-all-3.1.2.jar integration-test2/libs/randoop.jar
+ln -s $HOME/research/testing/randoop/build/libs/randoop-all-3.1.5.jar integration-test2/libs/randoop.jar
+mv -f integration-test2/libs/replacecall.jar replacecall.jar-ORIG
+ln -s $HOME/research/testing/randoop/build/libs/replacecall-3.1.5.jar integration-test2/libs/replacecall.jar
 ```
 (Note: if you make a change, check this link anytime you pull
 integration-test2 and rerun the `fetch.py` script.)
