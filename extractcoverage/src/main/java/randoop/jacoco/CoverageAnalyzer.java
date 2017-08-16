@@ -82,8 +82,9 @@ public class CoverageAnalyzer {
 
     DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
     String reportFileName = "report-" + dateFormat.format(new Date()) + ".csv";
-    File reportFile = workingDir.resolve("report.csv").toFile();
+    File reportFile = workingDir.resolve(reportFileName).toFile();
     try (PrintStream out = new PrintStream(reportFile)) {
+      out.println(reportFileName);
       out.println("project,case,covered lines, total lines, covered methods, total methods");
       for (String row : table) {
         out.println(row);
@@ -148,7 +149,9 @@ public class CoverageAnalyzer {
     String testClasspath = inputClasspath + ":" + testPath.toString() + ":" + junitPath;
     List<String> command = new ArrayList<>();
     command.add("java");
+    command.add("-Xbootclasspath/a:" + replacecallAgentPath);
     command.add("-javaagent:" + jacocoAgentPath + "=destfile=" + execFile + ",excludes=org.junit.*");
+    command.add("-javaagent:" + replacecallAgentPath);
     command.add("-ea");
     command.add("-classpath");
     command.add(testClasspath);
