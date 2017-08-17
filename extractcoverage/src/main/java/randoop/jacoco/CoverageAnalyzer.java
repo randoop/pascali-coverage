@@ -37,18 +37,23 @@ import plume.Options.ArgException;
 */
 public class CoverageAnalyzer {
 
+  @SuppressWarnings("WeakerAccess")
   @Option("the corpus directory")
   public static String corpusDirectoryPath;
 
+  @SuppressWarnings("WeakerAccess")
   @Option("the path to the jacoco agent")
   public static String jacocoAgentPath;
 
-  @Option("the working directory")
-  public static String workingDirectoryPath;
-
+  @SuppressWarnings("WeakerAccess")
   @Option("the junit library classpath")
   public static String junitPath;
 
+  @SuppressWarnings("WeakerAccess")
+  @Option("directory where output should be written")
+  public static String outputPath;
+
+  @SuppressWarnings("WeakerAccess")
   @Option("the path for the replacecall agent")
   public static String replacecallAgentPath;
 
@@ -65,15 +70,14 @@ public class CoverageAnalyzer {
     }
 
     Path corpusDirectory = Paths.get(corpusDirectoryPath);
-    Path workingDir = Paths.get(workingDirectoryPath);
     System.out.println("Corpus directory:\t" + corpusDirectory);
-    System.out.println("Working directory:\t" + workingDir);
+    Path outputDirectory = Paths.get(outputPath);
 
     List<String> table = new ArrayList<>();
     try (DirectoryStream<Path> stream = Files.newDirectoryStream(corpusDirectory)) {
       for (Path projectPath : stream) {
-        Path projectOutPath = workingDir.resolve(projectPath.getFileName());
-        table.addAll(visitProject(projectPath, projectOutPath, workingDir));
+        Path projectOutPath = outputDirectory.resolve(projectPath.getFileName());
+        table.addAll(visitProject(projectPath, projectOutPath));
       }
     } catch (IOException e) {
       System.err.printf("Unable to read corpus directory: %s%n", e.getMessage());
@@ -82,7 +86,7 @@ public class CoverageAnalyzer {
 
     DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
     String reportFileName = "report-" + dateFormat.format(new Date()) + ".csv";
-    File reportFile = workingDir.resolve(reportFileName).toFile();
+    File reportFile = outputDirectory.resolve(reportFileName).toFile();
     try (PrintStream out = new PrintStream(reportFile)) {
       out.println(reportFileName);
       out.println("project,case,covered lines, total lines, covered methods, total methods");
@@ -94,7 +98,7 @@ public class CoverageAnalyzer {
     }
   }
 
-  private static List<String> visitProject(Path projectPath, Path projectOutPath, Path workingDir) {
+  private static List<String> visitProject(Path projectPath, Path projectOutPath) {
     System.out.printf("%nVisiting project: %s%n", projectPath.getFileName());
     List<String> table = new ArrayList<>();
     String SCRIPTOUT_DIR = "dljc-out";
@@ -104,7 +108,7 @@ public class CoverageAnalyzer {
         try (DirectoryStream<Path> testStream = Files.newDirectoryStream(scriptOutPath, "test-classes*")) {
           for (Path testPath : testStream) {
             Path testOutPath = projectOutPath.resolve(testPath.getFileName());
-            String result = visitTests(testPath, testOutPath, workingDir);
+            String result = visitTests(testPath, testOutPath);
             table.add(String.format("%s,%s", projectPath.getFileName(), result));
           }
         } catch (IOException e) {
@@ -118,7 +122,8 @@ public class CoverageAnalyzer {
     return table;
   }
 
-  private static String visitTests(Path testPath, Path testOutPath, Path workingDir) {
+  private static String visitTests(Path testPath, Path testOutPath) {
+    Path workingDirectory = createWorkingDirector();
     System.out.printf("[ %s ", testPath);
 
     Pattern testIDPattern = Pattern.compile("\\d+");
@@ -157,7 +162,7 @@ public class CoverageAnalyzer {
     command.add(testClasspath);
     String DRIVER_NAME = "RegressionTestDriver";
     command.add(DRIVER_NAME);
-    ProcessStatus status = ProcessStatus.runCommand(command, workingDir);
+    ProcessStatus status = ProcessStatus.runCommand(command, workingDirectory);
 
     if (status.exitStatus != 0) {
       if (status.exitStatus == 143) {
@@ -225,6 +230,21 @@ public class CoverageAnalyzer {
     }
     System.out.println(" ]");
     return String.format("%s,%d,%d,%d,%d", testID, coveredLineCount, totalLineCount, coveredMethodCount, totalMethodCount);
+  }
+
+  private static Path createWorkingDirector() {
+    try {
+      Path workingDirectory = Files.createTempDirectory("pascalicoverage");
+      workingDirectory.toFile().deleteOnExit();
+      return workingDirectory;
+    } catch (IOException e) {
+      // not BugInRandoopException
+      System.err.printf(
+              "Unable to create temporary directory, exception: %s%n",
+              e.getMessage());
+      System.exit(1);
+      throw new Error("unreachable statement");
+    }
   }
 
   private static String getClasspath(Path testPath) {

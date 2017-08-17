@@ -12,4 +12,4 @@ agentpath=$tools/jacocoagent.jar
 outputpath=$coveragepath/
 junitpath=$projectlibs/junit-4.12.jar
 replacecallpath=$projectlibs/replacecall.jar
-java -jar $classpath --corpusDirectoryPath $corpuspath --jacocoAgentPath $agentpath --workingDirectoryPath $outputpath --junitPath $junitpath --replacecallAgentPath $replacecallpath &> $logpath/coverage-log.txt
+java -jar $classpath --corpusDirectoryPath $corpuspath --jacocoAgentPath $agentpath --outputPath $outputpath --junitPath $junitpath --replacecallAgentPath $replacecallpath &> $logpath/coverage-log.txt
