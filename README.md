@@ -82,8 +82,7 @@ sh ./run_dyntrace.sh
 ln -s integration-test2/corpus/catalano/Catalano.Image/dljc-out integration-test2/corpus/catalano/dljc-out
 sh ./coverage.sh
 cd evaluation/coverage
-head -n 1 report.csv > report-`date +%Y%m%d`.csv
-tail -n +2 report.csv | sort -t , -k1,1 -k2,2n >> report-`date +%Y%m%d`.csv
+tail -n +2 report*.csv | sort -t , -k1,1 -k2,2n >> report-`date +%Y%m%d`.csv
 cd ..
 ```
 
