@@ -19,7 +19,7 @@ pascali-coverage
 ├── extractcoverage
 ├── integration-test2
 ├── libs
-├── log
+├── logs
 └── run_dyntrace.sh
 ```
 It is somewhat historical and could be cleaned up.
@@ -30,7 +30,7 @@ git clone git@gitlab.cs.washington.edu:randoop/pascali-coverage.git
 cd pascali-coverage
 mkdir -p evaluation/coverage
 mkdir -p evaluation/logs
-mkdir log
+mkdir logs
 mkdir libs
 wget http://search.maven.org/remotecontent?filepath=org/jacoco/jacoco/0.7.9/jacoco-0.7.9.zip -O jacoco-0.7.9.zip
 unzip -j jacoco-0.7.9.zip lib/jacocoagent.jar -d libs
@@ -89,7 +89,7 @@ cd ..
 The `run_dyntrace.sh` script uses Randoop to generate
 tests in directories such as
 `integration-test2/corpus/<program-name>/dljc-out/test-{src,classes}[0-9]+`.
-The `run_dyntrace` script writes logs into `pascali-coverage/log`.
+The `run_dyntrace` script writes logs into `pascali-coverage/logs`.
 It runs for about 5 hours.
 It is recommended that you run the scripts on a server without connecting your windowing system.
 
