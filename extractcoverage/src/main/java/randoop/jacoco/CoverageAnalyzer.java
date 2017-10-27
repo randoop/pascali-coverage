@@ -123,7 +123,6 @@ public class CoverageAnalyzer {
   }
 
   private static String visitTests(Path testPath, Path testOutPath) {
-    Path workingDirectory = createWorkingDirector();
     System.out.printf("[ %s ", testPath);
 
     Pattern testIDPattern = Pattern.compile("\\d+");
@@ -150,6 +149,7 @@ public class CoverageAnalyzer {
       return noResult;
     }
     File execFile = testOutPath.resolve("jacoco.exec").toFile();
+    Path workingDirectory = createWorkingDirectory();
 
     String testClasspath = inputClasspath + ":" + testPath.toString() + ":" + junitPath;
     List<String> command = new ArrayList<>();
@@ -163,6 +163,7 @@ public class CoverageAnalyzer {
     String DRIVER_NAME = "RegressionTestDriver";
     command.add(DRIVER_NAME);
     ProcessStatus status = ProcessStatus.runCommand(command, workingDirectory);
+    deleteDirectory(workingDirectory.toFile());
 
     if (status.exitStatus != 0) {
       if (status.exitStatus == 143) {
@@ -232,10 +233,9 @@ public class CoverageAnalyzer {
     return String.format("%s,%d,%d,%d,%d", testID, coveredLineCount, totalLineCount, coveredMethodCount, totalMethodCount);
   }
 
-  private static Path createWorkingDirector() {
+  private static Path createWorkingDirectory() {
     try {
       Path workingDirectory = Files.createTempDirectory("pascalicoverage");
-      workingDirectory.toFile().deleteOnExit();
       return workingDirectory;
     } catch (IOException e) {
       // not BugInRandoopException
@@ -327,6 +327,20 @@ public class CoverageAnalyzer {
     System.out.println();
     System.out.println(options.usage());
     System.exit(-1);
+  }
+
+  private static boolean deleteDirectory(File dir) {
+    if (dir.isDirectory()) {
+      File[] children = dir.listFiles();
+      for (int i = 0; i < children.length; i++) {
+        boolean success = deleteDirectory(children[i]);
+        if (!success) {
+          return false;
+        }
+      }
+    }
+    // either a file or an empty directory
+    return dir.delete();
   }
 
 }
