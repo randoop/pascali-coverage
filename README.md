@@ -61,10 +61,12 @@ To use a different Randoop than the one used by default in
 symbolic link to the version you want to use, probably in
 `build/libs/randoop-all-X.X.X.jar` of your clone of Randoop.  Example:
 ```
-mv -f integration-test2/libs/randoop.jar randoop.jar-ORIG
-ln -s $HOME/research/testing/randoop/build/libs/randoop-all-3.1.5.jar integration-test2/libs/randoop.jar
-mv -f integration-test2/libs/replacecall.jar replacecall.jar-ORIG
-ln -s $HOME/research/testing/randoop/build/libs/replacecall-3.1.5.jar integration-test2/libs/replacecall.jar
+cd integration-test2/libs
+mv -f randoop.jar randoop.jar-ORIG
+ln -s $HOME/research/testing/randoop/build/libs/randoop-all-3.1.5.jar randoop.jar
+mv -f replacecall.jar replacecall.jar-ORIG
+ln -s $HOME/research/testing/randoop/build/libs/replacecall-3.1.5.jar replacecall.jar
+cd ..
 ```
 (Note: if you make a change, check this link anytime you pull
 integration-test2 and rerun the `fetch.py` script.)
@@ -78,9 +80,9 @@ Before you attempt to run the scripts, make sure you have run the
 wish to use.
 
 ```
-sh ./run_dyntrace.sh
+bash ./run_dyntrace.sh
 ln -s integration-test2/corpus/catalano/Catalano.Image/dljc-out integration-test2/corpus/catalano/dljc-out
-sh ./coverage.sh
+bash ./coverage.sh
 cd evaluation/coverage
 tail -n +2 report*.csv | sort -t , -k1,1 -k2,2n >> report-`date +%Y%m%d`.csv
 cd ..
