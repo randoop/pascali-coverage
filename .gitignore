@@ -7,5 +7,6 @@ evaluation/
 integration-test2
 libs/
 log/
+logs/
 **/*.idea/
 **/*.iml
