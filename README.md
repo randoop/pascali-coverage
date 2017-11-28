@@ -36,8 +36,7 @@ wget http://search.maven.org/remotecontent?filepath=org/jacoco/jacoco/0.7.9/jaco
 unzip -f -j jacoco-0.7.9.zip lib/jacocoagent.jar -d libs
 \rm -f jacoco-0.7.9.zip
 git clone git@github.com:aas-integration/integration-test2.git
-git -C integration-test2 pull
-(cd integration-test2 && python fetch.py)
+(cd integration-test2 && git pull && python fetch.py)
 (cd extractcoverage && ./gradlew assemble)
 ```
 
@@ -64,10 +63,12 @@ symbolic link to the version you want to use, probably in
 ```
 cd integration-test2/libs
 mv -f randoop.jar randoop.jar-ORIG
-ln -s $HOME/research/testing/randoop/build/libs/randoop-all-3.1.5.jar randoop.jar
+ln -s $HOME/research/testing/randoop/build/libs/randoop-all-3.1.5.jar randoop-all-3.1.5.jar
+ln -s randoop-all-3.1.5.jar randoop.jar
 mv -f replacecall.jar replacecall.jar-ORIG
-ln -s $HOME/research/testing/randoop/build/libs/replacecall-3.1.5.jar replacecall.jar
-cd ..
+ln -s $HOME/research/testing/randoop/build/libs/replacecall-3.1.5.jar replacecall-3.1.5.jar
+ln -s replacecall-3.1.5.jar replacecall.jar
+cd ../..
 ```
 (Note: if you make a change, check this link anytime you pull
 integration-test2 and rerun the `fetch.py` script.)
