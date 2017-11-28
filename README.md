@@ -33,14 +33,15 @@ mkdir -p evaluation/logs
 mkdir logs
 mkdir libs
 wget http://search.maven.org/remotecontent?filepath=org/jacoco/jacoco/0.7.9/jacoco-0.7.9.zip -O jacoco-0.7.9.zip
-unzip -j jacoco-0.7.9.zip lib/jacocoagent.jar -d libs
+unzip -f -j jacoco-0.7.9.zip lib/jacocoagent.jar -d libs
 \rm -f jacoco-0.7.9.zip
 git clone git@github.com:aas-integration/integration-test2.git
+git -C integration-test2 pull
 (cd integration-test2 && python fetch.py)
 (cd extractcoverage && ./gradlew assemble)
 ```
 
-Finally, you may want to update `extractcoverage/libs/plume.jar` with the
+Optionally, run the following commands to update `extractcoverage/libs/plume.jar` with the
 [current release](https://github.com/mernst/plume-lib/releases/latest).
 ```
 wget https://github.com/mernst/plume-lib/releases/download/v1.1.2/plume-lib-1.1.2.tar.gz
