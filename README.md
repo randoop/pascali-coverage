@@ -35,7 +35,8 @@ mkdir libs
 wget http://search.maven.org/remotecontent?filepath=org/jacoco/jacoco/0.7.9/jacoco-0.7.9.zip -O jacoco-0.7.9.zip
 unzip -f -j jacoco-0.7.9.zip lib/jacocoagent.jar -d libs
 \rm -f jacoco-0.7.9.zip
-git clone git@github.com:aas-integration/integration-test2.git
+git clone https://github.com/aas-integration/integration-test2.git
+[or if you wish to use ssh: git clone git@github.com:aas-integration/integration-test2.git]
 (cd integration-test2 && git pull && python fetch.py)
 (cd extractcoverage && ./gradlew assemble)
 ```
