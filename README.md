@@ -64,11 +64,11 @@ symbolic link to the version you want to use, probably in
 ```
 cd integration-test2/libs
 mv -f randoop.jar randoop.jar-ORIG
-ln -s $HOME/research/testing/randoop/build/libs/randoop-all-3.1.5.jar randoop-all-3.1.5.jar
-ln -s randoop-all-3.1.5.jar randoop.jar
+ln -s $HOME/research/testing/randoop/build/libs/randoop-all-4.0.0.jar randoop-all-4.0.0.jar
+ln -s randoop-all-4.0.0.jar randoop.jar
 mv -f replacecall.jar replacecall.jar-ORIG
-ln -s $HOME/research/testing/randoop/build/libs/replacecall-3.1.5.jar replacecall-3.1.5.jar
-ln -s replacecall-3.1.5.jar replacecall.jar
+ln -s $HOME/research/testing/randoop/build/libs/replacecall-4.0.0.jar replacecall-4.0.0.jar
+ln -s replacecall-4.0.0.jar replacecall.jar
 cd ../..
 ```
 (Note: if you make a change, check this link anytime you pull
