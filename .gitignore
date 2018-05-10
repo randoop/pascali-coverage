@@ -1,12 +1,7 @@
-*~
-.DS_Store
+build/
 .gradle/
-TAGS
-extractcoverage/build
+gradle/
 evaluation/
 integration-test2
-libs/
-log/
 logs/
-**/*.idea/
-**/*.iml
+TAGS

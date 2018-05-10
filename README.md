@@ -9,7 +9,7 @@ Notes:
 
 ## Setup
 
-This is the directory structure that I use:
+This is the directory structure used for testing:
 ```
 pascali-coverage
 ├── coverage.sh
@@ -31,10 +31,6 @@ cd pascali-coverage
 mkdir -p evaluation/coverage
 mkdir -p evaluation/logs
 mkdir logs
-mkdir libs
-wget http://search.maven.org/remotecontent?filepath=org/jacoco/jacoco/0.7.9/jacoco-0.7.9.zip -O jacoco-0.7.9.zip
-unzip -f -j jacoco-0.7.9.zip lib/jacocoagent.jar -d libs
-\rm -f jacoco-0.7.9.zip
 git clone https://github.com/aas-integration/integration-test2.git
 [or if you wish to use ssh: git clone git@github.com:aas-integration/integration-test2.git]
 (cd integration-test2 && git pull && python fetch.py)
@@ -94,7 +90,7 @@ bash ./run_dyntrace.sh
 The `run_dyntrace.sh` script uses Randoop to generate
 tests in directories such as
 `integration-test2/corpus/<program-name>/dljc-out/test-{src,classes}[0-9]+`.
-It writes logs into `pascali-coverage/logs` and runs for about 5 hours.
+It writes logs into `pascali-coverage/logs` and runs for about 4 hours.
 
 It is recommended that you run the scripts on a server without connecting your windowing system.
 The library code in the corpus makes many attempts to open a window, but the replacecall
@@ -109,7 +105,7 @@ The next step is to execute the Randoop generated tests under the control of the
 JaCoCo coverage tool to collect the coverage data.  This is done by running the
 coverage script:
 ```
-ln -s integration-test2/corpus/catalano/Catalano.Image/dljc-out integration-test2/corpus/catalano/dljc-out
+(cd integration-test2/corpus/catalano && ln -s Catalano.Image/dljc-out dljc-out)
 bash ./coverage.sh
 ```
 The `ln` is necessary as the catalano suite puts its generated files in a non-standard subdirectory.

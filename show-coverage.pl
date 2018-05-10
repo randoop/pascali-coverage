@@ -64,12 +64,23 @@ my $man = 0;
     # Check for too many filenames
     pod2usage("$0: Too many files given.\n")  if (@ARGV > 1);
 
+my $expected_test_count = 76;
 my $test_count = 0;
 my $tot_line = 0;
 my $tot_exec = 0;
 my $tot_fail = 0;
 my @fields;
 my $filename = strftime("evaluation/coverage/report-%Y%m%d.csv", localtime);
+my @lines;
+my $line;
+
+    # first key is case-insensitive test name
+    # second key is test number
+    sub by_name_and_number {
+        "\L@$a[0]" cmp "\L@$b[0]"
+          or
+        @$a[1] <=> @$b[1];
+    }
 
     print(strftime("\nToday's date: %Y-%m-%d %H:%M:%S", localtime), "\n");
 
@@ -87,31 +98,44 @@ my $filename = strftime("evaluation/coverage/report-%Y%m%d.csv", localtime);
         print "name    covered   lines    coverage", "\n";
     }
 
+    # read all input lines into an array
+    # so we can sort it to get consistent output
     while (<$fh>) {
         chomp;
         @fields = split /,/;
-            if (@fields == 0) {
-                # do nothing for a blank line
-            } elsif (@fields == 1) {
-                # do nothing for report name line
-            } elsif ($fields[0] eq "project") {
-                # do nothing for a header line
-            } else {
-                $test_count += 1;
-                $tot_exec += $fields[2];
-                $tot_line += $fields[3];
-                if ($details) {
-                    if ($fields[3] != 0) {
-                        printf("%s: %d %d %.2f\n", $fields[0], $fields[2], $fields[3], $fields[2]/$fields[3]);
-                    } else {
-                        printf("%s: failed\n", $fields[0]);
-                        $tot_fail += 1;
-                    }
-                }
-            }
+        if (@fields == 0) {
+            # do nothing for a blank line
+        } elsif (@fields == 1) {
+            # do nothing for report name line
+        } elsif ($fields[0] eq "project") {
+            # do nothing for a header line
+        } else {
+            push @lines, [ @fields ];
+        }
     }
 
-    printf("\nNumber tests: %d,  %d failed\n", $test_count, $tot_fail);
+    for $line (sort by_name_and_number @lines) {
+        $test_count += 1;
+        $tot_exec += @$line[2];
+        $tot_line += @$line[3];
+        if (@$line[3] != 0) {
+            if ($details) {
+                printf("%s.%d: %d %d %.2f\n", @$line[0], @$line[1], @$line[2], @$line[3], @$line[2]/@$line[3]);
+            }
+        } else {
+            $tot_fail += 1;
+            if ($details) {
+                printf("%s.%d: failed\n", @$line[0], @$line[1]);
+            }
+        }
+    }
+
+    if ($expected_test_count < $test_count) {
+        die "More test results than expected!";
+    }
+    $tot_fail = $expected_test_count - $test_count + $tot_fail;
+
+    printf("\nNumber tests: %d, %d failed\n", $expected_test_count, $tot_fail);
     print "Total lines: ", $tot_line, "\n";
     print "Lines executed: ", $tot_exec, "\n";
     printf("Coverage: %.2f\n", $tot_exec/$tot_line);
