@@ -1,0 +1,98 @@
+#!/usr/bin/env perl
+
+=head1 NAME
+
+prepare-coverage-data
+
+=head1 SYNOPSIS
+
+prepare-coverage-data [options] [optional pascali coverage file]
+
+ Options:
+  -help        brief help message
+  -man         full documentation
+
+=head1 OPTIONS
+
+=over 4
+
+=item B<-help>
+
+Print a brief help message and exits.
+
+=item B<-man>
+
+Prints the manual page and exits.
+
+=back
+
+=head1 DESCRIPTION
+
+This perl script is intended for use by Randoop developers to prepare the
+Pascali code coverage results for inclusion into the master results CSV file.
+
+By default, the script will read the file:
+
+  evaluation/coverage/report-<today's date>.csv
+
+You may supply an alternative file as an argument.
+
+=cut
+
+use strict;
+use warnings;
+
+use POSIX qw(strftime);
+use Getopt::Long qw(GetOptions);
+use Pod::Usage qw(pod2usage);
+
+my $help = 0;
+my $man = 0;
+
+# Parse options and print usage if there is a syntax error,
+# or if usage was explicitly requested.
+GetOptions('help|?' => \$help, man => \$man) or pod2usage(2);
+pod2usage(1) if $help;
+pod2usage(-verbose => 2) if $man;
+# Check for too many filenames
+pod2usage("$0: Too many files given.\n")  if (@ARGV > 1);
+
+my $filename = strftime("evaluation/coverage/report-%Y%m%d.csv", localtime);
+my @lines;
+
+# first key is case-insensitive test name
+# second key is test number
+sub by_name_and_number {
+    "\L@$a[0]" cmp "\L@$b[0]"
+      or
+    @$a[1] <=> @$b[1];
+}
+
+if (@ARGV == 1) {
+    $filename = $ARGV[0];
+}
+
+open(my $fh, '<', $filename)
+  or die "Could not open file '$filename'. $!.\n";
+my $time_run = (stat($fh))[9];
+
+# read all input lines into an array
+# so we can sort it to get consistent output
+while (<$fh>) {
+    chomp;
+    my @fields = split /,/;
+    if (@fields == 0) {
+        # do nothing for a blank line
+    } elsif (@fields == 1) {
+        # do nothing for report name line
+    } elsif ($fields[0] eq "project") {
+        # do nothing for a header line
+    } else {
+        push @lines, [ @fields ];
+    }
+}
+
+for my $line (sort by_name_and_number @lines) {
+    # time run, suite name, test name, sub-test number, lines covered, total lines
+    printf("%d, %s, %s, %d, %d, %d \n", $time_run, "pascali", @$line[0], @$line[1], @$line[2], @$line[3]);
+}
