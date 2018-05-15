@@ -37,15 +37,6 @@ git clone https://github.com/aas-integration/integration-test2.git
 (cd extractcoverage && ./gradlew assemble)
 ```
 
-Optionally, run the following commands to update `extractcoverage/libs/plume.jar` with the
-[current release](https://github.com/mernst/plume-lib/releases/latest).
-```
-wget https://github.com/mernst/plume-lib/releases/download/v1.1.2/plume-lib-1.1.2.tar.gz
-tar zxvf plume-lib-1.1.2.tar.gz -C libs plume-lib-1.1.2/java/plume.jar
-\rm -f plume-lib-1.1.2.tar.gz
-mv libs/plume-lib-1.1.2/java/plume.jar extractcoverage/libs/
-\rm -rf libs/plume-lib-1.1.2
-```
 
 ## Controlling which Randoop is used
 

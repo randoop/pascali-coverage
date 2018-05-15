@@ -1,13 +1,17 @@
 package randoop.jacoco;
 
-import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import org.apache.commons.exec.CommandLine;
+import org.apache.commons.exec.DefaultExecuteResultHandler;
+import org.apache.commons.exec.DefaultExecutor;
+import org.apache.commons.exec.ExecuteWatchdog;
+import org.apache.commons.exec.PumpStreamHandler;
 
-import plume.TimeLimitProcess;
 
 /**
  * Class to hold the return status from running a command assuming that it
@@ -24,6 +28,8 @@ class ProcessStatus {
 
   /** The output from running the command. */
   final List<String> outputLines;
+
+  static final String lineSep = System.getProperty("line.separator");
 
   /**
    * Creates a {@link ProcessStatus} object for the command with captured exit status, and output.
@@ -48,46 +54,54 @@ class ProcessStatus {
    */
   static ProcessStatus runCommand(List<String> command, Path workingDirectory) {
 
-    // The Plume class used here expects a time limit, but setting tight timeout limits
-    // for individual tests has caused headaches when tests are run on Travis CI.
-    // 15 minutes is longer than all tests currently take, even for a slow Travis run.
-    long timeout = 300000; // use 5 minutes for timeout
+    // Setting tight timeout limits for individual tests has caused headaches when
+    // tests are run on Travis CI.  We will use 5 minutes for timeout length.
+    long timeout = 300000;
 
-    ProcessBuilder randoopBuilder = new ProcessBuilder(command);
-    randoopBuilder.directory(workingDirectory.toFile());
-    randoopBuilder.redirectErrorStream(true);
+    String[] args = command.toArray(new String[0]);
+    CommandLine cmdLine = new CommandLine(args[0]); // constructor requires executable name
+    cmdLine.addArguments(Arrays.copyOfRange(args, 1, args.length));
 
-    TimeLimitProcess p = null;
+    DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
+    DefaultExecutor executor = new DefaultExecutor();
+    executor.setWorkingDirectory(workingDirectory.toFile());
+
+    ExecuteWatchdog watchdog = new ExecuteWatchdog(timeout);
+    executor.setWatchdog(watchdog);
+
+    final ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+    PumpStreamHandler streamHandler = new PumpStreamHandler(outStream); // capture both stderr and stdout
+    executor.setStreamHandler(streamHandler);
 
     try {
-      p = new TimeLimitProcess(randoopBuilder.start(), timeout, true);
+      executor.execute(cmdLine, resultHandler);
     } catch (IOException e) {
       System.err.println("Exception starting process: " + e);
     }
 
     int exitValue = -1;
     try {
-      exitValue = p.waitFor();
+      resultHandler.waitFor();
+      exitValue = resultHandler.getExitValue();
     } catch (InterruptedException e) {
-      System.err.println("Exception running process: " + e);
+      if (!watchdog.killedProcess()) {
+        System.err.println("Exception running process: " + e);
+      }
     }
+    boolean timedOut = executor.isFailure(exitValue) && watchdog.killedProcess();
 
     List<String> outputLines = new ArrayList<>();
-    try (BufferedReader rdr = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
-      String line = rdr.readLine();
-      while (line != null) {
-        outputLines.add(line);
-        line = rdr.readLine();
-      }
-    } catch (IOException e) {
+    try {
+      outputLines = Arrays.asList(outStream.toString().split(lineSep));
+    } catch (RuntimeException e) {
       System.err.println("Exception getting output " + e);
     }
 
-    if (p.timed_out()) {
+    if (timedOut) {
       for (String line : outputLines) {
         System.out.println(line);
       }
-      assert !p.timed_out() : "Process timed out after " + p.timeout_msecs() + " msecs";
+      System.err.println("Process timed out after " + timeout + " msecs.");
     }
     return new ProcessStatus(command, exitValue, outputLines);
   }
