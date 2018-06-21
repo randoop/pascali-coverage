@@ -57,6 +57,10 @@ public class CoverageAnalyzer {
   @Option("the path for the replacecall agent")
   public static String replacecallAgentPath;
 
+  @SuppressWarnings("WeakerAccess")
+  @Option("the name of single corpus test to run")
+  public static String testName;
+
   private static Options options = new Options(CoverageAnalyzer.class);
 
   public static void main(String[] args) {
@@ -74,6 +78,12 @@ public class CoverageAnalyzer {
     Path outputDirectory = Paths.get(outputPath);
 
     List<String> table = new ArrayList<>();
+
+    if (testName != null && !testName.isEmpty()) {
+        Path projectPath = corpusDirectory.resolve(testName);
+        Path projectOutPath = outputDirectory.resolve(testName);
+        table.addAll(visitProject(projectPath, projectOutPath));
+    } else
     try (DirectoryStream<Path> stream = Files.newDirectoryStream(corpusDirectory)) {
       for (Path projectPath : stream) {
         Path projectOutPath = outputDirectory.resolve(projectPath.getFileName());
