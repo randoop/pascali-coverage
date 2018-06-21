@@ -7,7 +7,9 @@ for dirname in $CORPUSDIR/*; do
   log="logs/$basename-log.txt"
 
   if [[ -d "$dirname" && ! -L "$dirname" ]]; then
-    if [[ ! "$basename" =~ ^Sort[0-9]+ ]]; then
+    if grep -q -x "$basename" tests-to-skip ; then
+      echo "skipping $basename"
+    else
       echo "running $basename"
       python integration-test2/run_randoop.py "$basename" &> "$log"
     fi
