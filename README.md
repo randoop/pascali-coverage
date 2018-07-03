@@ -20,7 +20,8 @@ pascali-coverage
 ├── integration-test2
 ├── libs
 ├── logs
-└── run_dyntrace.sh
+├── run_dyntrace.sh
+└── show-coverage.pl
 ```
 It is somewhat historical and could be cleaned up.
 
@@ -51,11 +52,11 @@ symbolic link to the version you want to use, probably in
 ```
 cd integration-test2/libs
 mv -f randoop.jar randoop.jar-ORIG
-ln -s $HOME/research/testing/randoop/build/libs/randoop-all-4.0.0.jar randoop-all-4.0.0.jar
-ln -s randoop-all-4.0.0.jar randoop.jar
+ln -s $HOME/randoop/build/libs/randoop-all-4.0.4.jar randoop-all-4.0.4.jar
+ln -s randoop-all-4.0.4.jar randoop.jar
 mv -f replacecall.jar replacecall.jar-ORIG
-ln -s $HOME/research/testing/randoop/build/libs/replacecall-4.0.0.jar replacecall-4.0.0.jar
-ln -s replacecall-4.0.0.jar replacecall.jar
+ln -s $HOME/randoop/build/libs/replacecall-4.0.4.jar replacecall-4.0.4.jar
+ln -s replacecall-4.0.4.jar replacecall.jar
 cd ../..
 ```
 (Note: if you make a change, check this link anytime you pull
