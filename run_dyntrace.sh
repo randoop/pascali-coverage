@@ -1,7 +1,7 @@
 #!/bin/bash
 CORPUSDIR=integration-test2/corpus
 for dirname in $CORPUSDIR/*; do
-  [ -e "$dirname" ] || continue
+  [ -d "$dirname" ] || continue
 
   basename=`basename $dirname`
   log="logs/$basename-log.txt"

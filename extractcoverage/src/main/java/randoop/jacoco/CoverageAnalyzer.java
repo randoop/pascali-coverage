@@ -86,6 +86,7 @@ public class CoverageAnalyzer {
     } else
     try (DirectoryStream<Path> stream = Files.newDirectoryStream(corpusDirectory)) {
       for (Path projectPath : stream) {
+        if (!Files.isDirectory(projectPath)) continue;
         Path projectOutPath = outputDirectory.resolve(projectPath.getFileName());
         table.addAll(visitProject(projectPath, projectOutPath));
       }
