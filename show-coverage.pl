@@ -66,7 +66,7 @@ pod2usage("$0: Too many files given.\n")  if (@ARGV > 1);
 
 # If additional tests are added to the Pascali suite,
 # the expected_test_count may need to be adjusted.
-my $expected_test_count = 76;
+my $expected_test_count = 74;
 my $test_count = 0;
 my $tot_line = 0;
 my $tot_exec = 0;
@@ -131,6 +131,7 @@ for my $line (sort by_name_and_number @lines) {
 }
 
 if ($expected_test_count < $test_count) {
+    printf("expected: %d, actual: %d\n", $expected_test_count, $test_count);
     die "More test results than expected!";
 }
 $tot_fail += $expected_test_count - $test_count;
