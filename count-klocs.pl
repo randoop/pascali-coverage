@@ -34,8 +34,8 @@ Prints the manual page and exits.
 
 =head1 DESCRIPTION
 
-This perl script reads a Pascali coverage file, calculates the percent coverage
-and displays the result.
+This perl script is intended for use by Randoop developers to go through
+the Pascali corpus and count the KLOCS of each of the tests.
 
 =cut
 
