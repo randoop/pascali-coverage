@@ -61,6 +61,13 @@ pod2usage(-verbose => 2) if $man;
 pod2usage("$0: Too many arguments.\n")  if (@ARGV > 1);
 pod2usage("$0: Must supply Pascali directory name.\n")  if (@ARGV < 1);
 
+# locate the java_count tool
+my $java_count = $ENV{'JAVA_COUNT_TOOL'};
+if (! defined($java_count)) {
+    print "JAVA_COUNT_TOOL environment variable not set\n";
+    exit 1;
+}
+
 my $filename;
 my $output;
 my $srcdir;
@@ -111,8 +118,8 @@ while ($filename = readdir($tdh)) {
             # find and process the matching source file
             find(\&search_for_file, ".");
         }
-# UNDONE: need better way to find java_count tool
-        my $cmd = "/homes/gws/markro/sloccount-2.26/java_count -f $tfname";
+
+        my $cmd = "$java_count -f $tfname";
         # print "$cmd\n";
         $output = `$cmd`;
         chomp $output;
