@@ -33,8 +33,8 @@ mkdir -p evaluation/coverage
 mkdir -p evaluation/logs
 mkdir logs
 git clone https://github.com/aas-integration/integration-test2.git
-[or if you wish to use ssh: git clone git@github.com:aas-integration/integration-test2.git]
-(cd integration-test2 && git pull && python fetch.py)
+# or if you wish to use ssh: git clone git@github.com:aas-integration/integration-test2.git
+(cd integration-test2 && git pull && python fetch_corpus.py)
 (cd extractcoverage && ./gradlew assemble)
 ```
 
