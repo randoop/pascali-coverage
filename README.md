@@ -12,16 +12,20 @@ Notes:
 This is the directory structure used for testing:
 ```
 pascali-coverage
+├── count-klocs.pl
 ├── coverage.sh
 ├── evaluation
 │   ├── coverage
 │   └── logs
 ├── extractcoverage
+├── get_klocs.sh
 ├── integration-test2
 ├── libs
 ├── logs
+├── README.md
 ├── run_dyntrace.sh
-└── show-coverage.pl
+├── show-coverage.pl
+└── tests-to-skip
 ```
 It is somewhat historical and could be cleaned up.
 
@@ -34,7 +38,7 @@ mkdir -p evaluation/logs
 mkdir logs
 git clone https://github.com/aas-integration/integration-test2.git
 # or if you wish to use ssh: git clone git@github.com:aas-integration/integration-test2.git
-(cd integration-test2 && git pull && python fetch_corpus.py)
+(cd integration-test2 && git pull && ./fetch_dependencies.sh && ./fetch_corpus.py)
 (cd extractcoverage && ./gradlew assemble)
 ```
 
