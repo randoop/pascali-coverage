@@ -4,8 +4,8 @@ This is the initial state of the tools for evaluating Randoop test coverage over
 the Pascali corpus.
 
 Notes:
-1. The default Pascali scripts run Randoop without the replacecall agent. This will remain broken until Randoop 4 is released and the Pascali scripts can be updated.
-2. If you find anything wrong with these instructions, please modify this document in the repository and submit a pull-request.
+1. The default Pascali scripts run Randoop without the replacecall agent. This needs to be updated.
+2. If you find anything wrong with these instructions, please open an issue or a pull request.
 
 ## Setup
 
