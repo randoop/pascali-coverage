@@ -17,7 +17,15 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 RUN export DEBIAN_FRONTEND=noninteractive \
 && apt-get -qqy update \
 && apt-get -qqy install \
-  curl
+  curl \
+  gcc \
+  git \
+  maven \
+  make \
+  perl \
+  subversion \
+  wget \
+  unzip
 
 RUN export DEBIAN_FRONTEND=noninteractive \
 && apt-get clean \
