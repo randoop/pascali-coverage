@@ -1,8 +1,8 @@
 jobs:
-- job: everythingall_tests_jdk8
+- job: everything
   pool:
     vmImage: 'ubuntu-16.04'
-  container: mdernst/cf-ubuntu-jdk8:latest
+  container: mdernst/pascalicoverage-ubuntu-jdk8:latest
   steps:
   - checkout: self
     fetchDepth: 25

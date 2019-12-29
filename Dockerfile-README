@@ -29,5 +29,5 @@ alias create_upload_docker_image=' \
 
 export OS=ubuntu
 export JDKVER=jdk8
-export PROJECT=pascali
+export PROJECT=pascalicoverage
 create_upload_docker_image
