@@ -14,15 +14,10 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   openjdk-8-jdk \
 && update-java-alternatives --set java-1.8.0-openjdk-amd64
 
-# RUN export DEBIAN_FRONTEND=noninteractive \
-# && apt-get -qqy update \
-# && apt-get -qqy install \
-#   gcc \
-#   git \
-#   make \
-#   perl \
-#   subversion \
-#   wget
+RUN export DEBIAN_FRONTEND=noninteractive \
+&& apt-get -qqy update \
+&& apt-get -qqy install \
+  curl
 
 RUN export DEBIAN_FRONTEND=noninteractive \
 && apt-get clean \
