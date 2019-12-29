@@ -5,6 +5,10 @@ set -e
 # Show commands as they are executed
 set -x
 
+# fetch_dependencies.sh builds Daikon, which needs JAVA_HOME to be set.
+JAVA_HOME_DEFAULT=${JAVA_HOME:-$(dirname $(dirname $(dirname $(readlink -f $(/usr/bin/which java)))))}
+export JAVA_HOME=${JAVA_HOME:-$JAVA_HOME_DEFAULT}
+
 mkdir -p evaluation/coverage
 mkdir -p evaluation/logs
 mkdir logs
