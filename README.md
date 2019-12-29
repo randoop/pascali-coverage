@@ -33,37 +33,19 @@ To create this directory structure:
 ```
 git clone git@gitlab.cs.washington.edu:randoop/pascali-coverage.git
 cd pascali-coverage
-mkdir -p evaluation/coverage
-mkdir -p evaluation/logs
-mkdir logs
-git clone https://github.com/aas-integration/integration-test2.git
-# or if you wish to use ssh: git clone git@github.com:aas-integration/integration-test2.git
-(cd integration-test2 && git pull && ./fetch_dependencies.sh && ./fetch_corpus.py)
-(cd extractcoverage && ./gradlew assemble)
+./create-directory-structure.sh
 ```
 
 
 ## Controlling which Randoop is used
 
-By default the `integration-test2` scripts will run the Randoop that is downloaded
-by the `integration-test2/fetch_dependencies.sh` script.  This is supposed to be
-the current release of Randoop. (If it is not, a pull-request with the update needs to be made to the [integration-test2](https://github.com/aas-integration/integration-test2) repo.)
+By default the `integration-test2` scripts will run the latest release of Randoop.  To use a different Randoop, run `replace-randoop.sh`, passing the top-level Randoop directory.  For example:
 
-To use a different Randoop than the one used by default in
-`integration-test2`, replace `integration-test2/libs/randoop.jar` with a
-symbolic link to the version you want to use, probably in
-`build/libs/randoop-all-X.X.X.jar` of your clone of Randoop.  Example:
 ```
-cd integration-test2/libs
-mv -f randoop.jar randoop.jar-ORIG
-ln -s $HOME/randoop/build/libs/randoop-all-4.0.4.jar randoop-all-4.0.4.jar
-ln -s randoop-all-4.0.4.jar randoop.jar
-mv -f replacecall.jar replacecall.jar-ORIG
-ln -s $HOME/randoop/build/libs/replacecall-4.0.4.jar replacecall-4.0.4.jar
-ln -s replacecall-4.0.4.jar replacecall.jar
-cd ../..
+./replace-randoop.sh $HOME/randoop
 ```
-(Note: if you make a change, check this link anytime you pull
+
+(Note: you might need to re-run `replace-randoop.sh` anytime you pull
 integration-test2 and rerun the `fetch.py` script.)
 
 
@@ -95,7 +77,7 @@ system, the process may steal window focus, which can be disruptive to doing act
 If you get actual windows or dialogs, please report an issue to Randoop.
 
 
-## Running the randoop generated tests and collecting the coverage data.
+## Running the Randoop-generated tests and collecting the coverage data.
 
 The next step is to execute the Randoop generated tests under the control of the
 JaCoCo coverage tool to collect the coverage data.  This is done by running the
