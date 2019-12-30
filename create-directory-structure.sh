@@ -13,9 +13,7 @@ mkdir -p evaluation/coverage
 mkdir -p evaluation/logs
 mkdir logs
 
-## For testing
-## git clone https://github.com/aas-integration/integration-test2.git
-git clone https://github.com/mernst/integration-test2.git --branch debug-fetch-dependencies
+git clone https://github.com/aas-integration/integration-test2.git
 
 # or if you wish to use ssh:
 # git clone git@github.com:aas-integration/integration-test2.git
