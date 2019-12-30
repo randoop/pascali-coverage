@@ -39,10 +39,12 @@ cd pascali-coverage
 
 ## Controlling which Randoop is used
 
-By default the `integration-test2` scripts will run the latest release of Randoop.  To use a different Randoop, run `replace-randoop.sh`, passing the top-level Randoop directory.  For example:
+By default the `integration-test2` scripts will run the latest release of
+Randoop.  To use a different Randoop, run the `replace-randoop-jars.sh`
+from the Randoop whose jar files you wish to use.  For example:
 
 ```
-./replace-randoop.sh $HOME/randoop
+cd integration-test2/libs && $HOME/randoop/scripts/replace-randoop-jars.sh
 ```
 
 (Note: you might need to re-run `replace-randoop.sh` anytime you pull
