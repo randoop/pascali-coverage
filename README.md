@@ -1,6 +1,6 @@
 # Pascali-coverage computations
 
-This is the initial state of the tools for evaluating Randoop test coverage over
+This repository contains the tools for evaluating Randoop test coverage over
 the Pascali corpus.
 
 Notes:
