@@ -11,7 +11,7 @@ for dirname in $CORPUSDIR/*; do
       echo "skipping $basename"
     else
       echo "running $basename"
-      python integration-test2/run_randoop.py "$basename" &> "$log"
+      python3 integration-test2/run_randoop.py "$basename" &> "$log"
     fi
   fi
 done
