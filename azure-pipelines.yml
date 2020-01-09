@@ -1,5 +1,6 @@
 jobs:
 - job: everything
+  timeoutInMinutes: 250
   pool:
     vmImage: 'ubuntu-16.04'
   container: mdernst/randoop-ubuntu-jdkany-coverage:latest
@@ -8,4 +9,11 @@ jobs:
     fetchDepth: 25
   - bash: ./create-directory-structure.sh
     displayName: create-directory-structure.sh
-# TODO: clone Randoop, run ./gradlew assemble, then run replace-randoop.sh
+  - bash: (cd /tmp && git clone https://github.com/randoop/randoop.git && cd randoop && ./gradlew assemble) && (cd integration-test2/libs && /tmp/randoop/scripts/replace-randoop-jars.sh)
+    displayName: replace-randoop
+  - bash: ./run_dyntrace.sh
+    displayName: run_dyntrace.sh
+  - bash: (cd integration-test2/corpus/catalano && ln -s Catalano.Image/dljc-out dljc-out) && ./coverage.sh
+    displayName: coverage.sh
+  - bash: ./show-coverage.pl
+    displayName: show-coverage.pl

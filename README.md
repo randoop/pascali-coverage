@@ -57,6 +57,7 @@ Before you attempt to run the scripts, make sure you have run the
 `integration-test2/fetch.py` script, and that
 `integration-test2/libs/randoop.jar` points to the version of Randoop that you
 wish to use.
+(`./create-directory-structure.sh` did these things.)
 
 
 ## Running randoop to generate the coverage test cases.
@@ -65,7 +66,7 @@ The next step is to run Randoop over the test suites to generate a set of test
 cases; then pass them to the java compiler.  This is done by running the
 run_dyntrace.sh script:
 ```
-bash ./run_dyntrace.sh
+./run_dyntrace.sh
 ```
 The `run_dyntrace.sh` script uses Randoop to generate
 tests in directories such as
@@ -86,7 +87,7 @@ JaCoCo coverage tool to collect the coverage data.  This is done by running the
 coverage script:
 ```
 (cd integration-test2/corpus/catalano && ln -s Catalano.Image/dljc-out dljc-out)
-bash ./coverage.sh
+./coverage.sh
 ```
 The `ln` is necessary as the catalano suite puts its generated files in a non-standard subdirectory.
 The `coverage.sh` script runs the generated tests.  It completes in about 5 minutes.
