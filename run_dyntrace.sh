@@ -11,7 +11,14 @@ for dirname in $CORPUSDIR/*; do
       echo "skipping $basename"
     else
       echo "running $basename"
-      python3 integration-test2/run_randoop.py "$basename" &> "$log"
+      if python3 integration-test2/run_randoop.py "$basename" &> "$log" ; then
+	:
+      else
+        echo "Command failed: python3 integration-test2/run_randoop.py \"$basename\" &> \"$log\""
+	echo "contents of $log:"
+	cat "$log"
+	echo "end of contents of $log"
+      fi
     fi
   fi
 done
