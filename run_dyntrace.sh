@@ -17,7 +17,8 @@ for dirname in $CORPUSDIR/*; do
         echo "Command failed: python3 integration-test2/run_randoop.py \"$basename\" &> \"$log\""
 	echo "contents of $log:"
 	cat "$log"
-	echo "end of contents of $log"
+	echo "end of contents of $log."
+	exit 2
       fi
     fi
   fi
