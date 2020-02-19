@@ -1,5 +1,6 @@
 #!/bin/bash
 CORPUSDIR=integration-test2/corpus
+DLJC_LOG=integration-test2/dljc.log
 for dirname in $CORPUSDIR/*; do
   [ -d "$dirname" ] || continue
 
@@ -18,6 +19,9 @@ for dirname in $CORPUSDIR/*; do
 	echo "contents of $log:"
 	cat "$log"
 	echo "end of contents of $log."
+	echo "contents of $DLJC_LOG"
+	cat "$DLJC_LOG"
+	echo "end of contents of $DLJC_LOG."
 	exit 2
       fi
     fi
