@@ -5,9 +5,6 @@ set -e
 # Show commands as they are executed
 set -x
 
-# TODO: Add this to the base image either via apt-get or pip.
-apt-get -y install python-subprocess32
-
 # fetch_dependencies.sh builds Daikon, which needs JAVA_HOME to be set.
 JAVA_HOME_DEFAULT=${JAVA_HOME:-$(dirname $(dirname $(dirname $(readlink -f $(/usr/bin/which java)))))}
 export JAVA_HOME=${JAVA_HOME:-$JAVA_HOME_DEFAULT}
